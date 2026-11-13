@@ -3,13 +3,15 @@ import { ArrowUpRight, Check, Clock3, Compass, FileText, MapPin, ShieldCheck } f
 import { caseStudies, childTitles, faqs, guides, industries, Locale, locations, route, serviceChildren, services, titleFromSlug } from "@/lib/content";
 import { PermitChecker } from "./permit-checker";
 import { QuoteWizard } from "./quote-wizard";
+import { ServiceDetailSection } from "./service-detail-section";
+import { AboutDetails } from "./about-details";
 import { WorkGrid } from "./work-grid";
 
 function InnerHero({ eyebrow, title, lead, index = "01" }: { eyebrow: string; title: string; lead: string; index?: string }) {
   return <section className="inner-hero"><div className="inner-hero-main"><span className="eyebrow">{eyebrow}</span><h1>{title}</h1><p>{lead}</p></div><div className="inner-index"><span>{index}</span><i/></div></section>;
 }
 
-function CTA({ locale }: { locale: Locale }) { const ar = locale === "ar"; return <section className="cta-band"><div><span className="eyebrow light">{ar ? "لنبدأ" : "START A PROJECT"}</span><h2>{ar ? "أخبرنا بما تريد أن تصنعه." : "Tell us what you need to make."}</h2></div><Link className="button button-white" href={route(locale, "get-a-quote")}>{ar ? "اطلب عرضاً" : "Get a quote"}<ArrowUpRight/></Link></section>; }
+function CTA({ locale, light = false }: { locale: Locale; light?: boolean }) { const ar = locale === "ar"; return <section className={`cta-band ${light ? "cta-band-light" : ""}`}><div><span className={`eyebrow ${light ? "" : "light"}`}>{ar ? "لنبدأ" : "START A PROJECT"}</span><h2>{ar ? "أخبرنا بما تريد أن تصنعه." : "Tell us what you need to make."}</h2></div><Link className={`button ${light ? "" : "button-white"}`} href={route(locale, "get-a-quote")}>{ar ? "اطلب عرضاً" : "Get a quote"}<ArrowUpRight/></Link></section>; }
 
 const processEn = ["Brief", "Design & 3D render", "Approval & permits", "Fabrication", "Installation", "Aftercare"];
 const processAr = ["الموجز", "التصميم والتصور", "الموافقة والتصاريح", "التصنيع", "التركيب", "خدمة ما بعد التنفيذ"];
@@ -36,7 +38,21 @@ export function ContentPage({ locale, path }: { locale: Locale; path: string }) 
     const title = child ? (ar ? child[1] : child[0]) : parent ? (ar ? parent.ar : parent.title) : titleFromSlug(parts.at(-1) || "Service");
     const lead = serviceLead(parts.at(-1) || "", title, ar, parent);
     const children = parent ? serviceChildren[parent.slug] || [] : [];
-    return <><InnerHero eyebrow={ar ? "خدمة · الإمارات" : "SERVICE · UAE"} title={title} lead={lead}/><section className="answer-block"><span>{ar ? "باختصار" : "THE SHORT ANSWER"}</span><p>{lead}</p></section>{children.length > 0 && <section className="section options-section"><div className="section-heading"><div><span className="eyebrow">{ar ? "الخيارات" : "TYPES & OPTIONS"}</span><h2>{ar ? "اختر الشكل المناسب للمهمة." : "Choose the right build for the job."}</h2></div></div><div className="option-grid">{children.map((slug, i) => <Link href={route(locale, `services/${parent?.slug}/${slug}`)} key={slug}><span>0{i + 1}</span><h3>{ar ? childTitles[slug]?.[1] : childTitles[slug]?.[0]}</h3><p>{ar ? "يتم تحديد الخامة والتشطيب والمواصفات حسب الموقع والاستخدام والمتطلبات." : "Material, finish and specification are selected around placement, use and authority requirements."}</p><ArrowUpRight/></Link>)}</div></section>}<SpecSection locale={locale}/><Process locale={locale}/>{parts.includes("exhibition-stands") && <EventTimeline locale={locale}/>}<section className="section faq-section"><div className="section-heading"><div><span className="eyebrow">FAQ</span><h2>{ar ? "ما يجب معرفته قبل الإنتاج." : "What to know before production."}</h2></div></div><div className="faq-list">{faqs.slice(0, 4).map(([q, a], i) => <details key={q}><summary><span>0{i + 1}</span>{ar ? ["هل يلزم تصريح؟", "كيف تختارون الخامات؟", "متى يتحدد الجدول؟", "هل تشاركون تصوراً قبل الإنتاج؟"][i] : q}<b>+</b></summary><p>{ar ? "تعتمد الإجابة النهائية على نوع المشروع والموقع والجهة المختصة. نثبت المتطلبات في العرض المعتمد قبل بدء التصنيع." : a}</p></details>)}</div></section><CTA locale={locale}/></>;
+    const serviceSlug = parts.at(-1) || parent?.slug || "signage";
+    return <>
+      <InnerHero eyebrow={ar ? "خدمة · الإمارات" : "SERVICE · UAE"} title={title} lead={lead}/>
+      <section className="answer-block"><span>{ar ? "باختصار" : "THE SHORT ANSWER"}</span><p>{lead}</p></section>
+      <ServiceDetailSection locale={locale} serviceSlug={serviceSlug} parentSlug={parent?.slug} title={title}/>
+      {children.length > 0 && <section className="section options-section">
+        <div className="section-heading"><div><span className="eyebrow">{ar ? "الخيارات" : "TYPES & OPTIONS"}</span><h2>{ar ? "اختر الشكل المناسب للمهمة." : "Choose the right build for the job."}</h2></div></div>
+        <div className="option-grid">{children.map((slug, i) => <Link href={route(locale, `services/${parent?.slug}/${slug}`)} key={slug}><span>0{i + 1}</span><h3>{ar ? childTitles[slug]?.[1] : childTitles[slug]?.[0]}</h3><p>{ar ? "يتم تحديد الخامة والتشطيب والمواصفات حسب الموقع والاستخدام والمتطلبات." : "Material, finish and specification are selected around placement, use and authority requirements."}</p><ArrowUpRight/></Link>)}</div>
+      </section>}
+      <SpecSection locale={locale}/>
+      <Process locale={locale}/>
+      {parts.includes("exhibition-stands") && <EventTimeline locale={locale}/>} 
+      <section className="section faq-section"><div className="section-heading"><div><span className="eyebrow">FAQ</span><h2>{ar ? "ما يجب معرفته قبل الإنتاج." : "What to know before production."}</h2></div></div><div className="faq-list">{faqs.slice(0, 4).map(([q, a], i) => <details key={q}><summary><span>0{i + 1}</span>{ar ? ["هل يلزم تصريح؟", "كيف تختارون الخامات؟", "متى يتحدد الجدول؟", "هل تشاركون تصوراً قبل الإنتاج؟"][i] : q}<b>+</b></summary><p>{ar ? "تعتمد الإجابة النهائية على نوع المشروع والموقع والجهة المختصة. نثبت المتطلبات في العرض المعتمد قبل بدء التصنيع." : a}</p></details>)}</div></section>
+      <CTA locale={locale}/>
+    </>;
   }
 
   if (path === "industries") return <><InnerHero eyebrow={ar ? "القطاعات" : "SECTOR EXPERTISE"} title={ar ? "نعرف كيف تظهر العلامة في عالمك." : "We understand where your brand has to perform."} lead={ar ? "حلول إنتاج مبنية على متطلبات كل قطاع ومواقعه وقواعده." : "Production systems shaped around each sector’s sites, brand standards and operating rules."}/><section className="section directory-grid">{industries.map(([slug, en, arabic], i) => <Link href={route(locale, `industries/${slug}`)} key={slug}><span>0{i + 1}</span><h2>{ar ? arabic : en}</h2><p>{ar ? "حلول لافتات وعرض وطباعة مصممة لسياق القطاع." : "Signage, display, print and rollout built for the realities of the sector."}</p><ArrowUpRight/></Link>)}</section><CTA locale={locale}/></>;
@@ -57,7 +73,17 @@ export function ContentPage({ locale, path }: { locale: Locale; path: string }) 
 
   if (root === "locations") { const loc = locations.find(([slug]) => slug === parts[1]); if (!loc) return null; return <><InnerHero eyebrow={loc[3]} title={ar ? loc[2] : loc[1]} lead={ar ? "تصميم وتصنيع وتركيب محلي مع مراعاة متطلبات الجهة المختصة." : loc[4]}/><section className="section location-proof"><div><Compass/><span className="eyebrow">{ar ? "المعرفة المحلية" : "LOCAL CONTEXT"}</span><h2>{ar ? "الموقع يغيّر المواصفات." : "Place changes the specification."}</h2></div><p>{ar ? "تختلف الموافقات والوصول والبيئة من موقع لآخر. لذلك تربط كل صفحة موقع محلي بجهة مختصة ومشروع ذي صلة بدلاً من نسخ النص." : "Approvals, site access and environment vary by location. Each location page ties the service to its authority and relevant project rather than duplicating city copy."}</p></section><CTA locale={locale}/></> }
 
-  if (path === "about") return <><InnerHero eyebrow={ar ? "من نحن" : "ABOUT THE IDEA BRANDS"} title={ar ? "نجعل العلامات مرئية." : "We make brands visible."} lead={ar ? "بدأت ذا آيديا براندز في دبي عام 2015 بمهمة بسيطة: جعل علامات عملائنا لا تُنسى." : "The Idea Brands started in Dubai in 2015 with a simple job: make our clients’ brands memorable, trusted and impossible to miss."}/><section className="about-statement"><blockquote>“{ar ? "نحن استوديو صغير، لكننا بالتأكيد لا نفكر بحجم صغير." : "We are a small studio but we certainly don’t think small."}”</blockquote><div><p>{ar ? "من واجهات معارض السيارات وأجنحة جيتكس إلى تغليف الأساطيل وبطاقات الأعمال، يبقى شخص واحد مسؤولاً من أول رسم حتى آخر مسمار." : "Ten years later, that job covers showroom facades, stands at GITEX, display units, fleet wraps and the business cards in your pocket."}</p><p>{ar ? "نصمم ونتصور ونصنع ونركب، ونخبرك بوضوح بما يناسب مناخ دبي وقواعدها قبل أن تنفق درهماً." : "Every project has a dedicated contact from the first sketch to the final screw. We say what will work in Dubai’s climate and under Dubai’s rules before you spend a dirham."}</p></div></section><section className="values"><div><span>01</span><h3>{ar ? "صادق" : "Honest."}</h3></div><div><span>02</span><h3>{ar ? "دقيق" : "Precise."}</h3></div><div><span>03</span><h3>{ar ? "في الموعد" : "On time."}</h3></div></section><CTA locale={locale}/></>;
+  if (path === "about") return <>
+    <InnerHero eyebrow={ar ? "من نحن" : "ABOUT THE IDEA BRANDS"} title={ar ? "نجعل العلامات مرئية." : "We make brands visible."} lead={ar ? "بدأت ذا آيديا براندز في دبي عام 2015 بمهمة بسيطة: جعل علامات عملائنا لا تُنسى." : "The Idea Brands started in Dubai in 2015 with a simple job: make our clients’ brands memorable, trusted and impossible to miss."}/>
+    <AboutDetails locale={locale}/>
+    <section className="values">
+      <div><span>01</span><h3>{ar ? "صادق" : "Honest."}</h3><p>{ar ? "إجابات واضحة حول ما يصلح وما يحتاج إلى تعديل قبل أن يبدأ الإنفاق." : "Clear advice on what will work, what will not, and what should change before production."}</p></div>
+      <div><span>02</span><h3>{ar ? "دقيق" : "Precise."}</h3><p>{ar ? "المقاس والخامة واللون والتشطيب مثبتة في مواصفة يمكن مراجعتها." : "Dimensions, materials, colour and finish are translated into a specification that can be checked."}</p></div>
+      <div><span>03</span><h3>{ar ? "في الموعد" : "On time."}</h3><p>{ar ? "الموافقات والتصنيع والوصول للموقع منسقة حول موعد تسليم واضح." : "Approvals, fabrication and site access are coordinated around a visible handover programme."}</p></div>
+    </section>
+    <section className="about-statement"><blockquote>“{ar ? "نحن استوديو صغير، لكننا بالتأكيد لا نفكر بحجم صغير." : "We are a small studio but we certainly don’t think small."}”</blockquote><div><p>{ar ? "من واجهات معارض السيارات وأجنحة جيتكس إلى تغليف الأساطيل وبطاقات الأعمال، يبقى شخص واحد مسؤولاً من أول رسم حتى آخر مسمار." : "Ten years later, that job covers showroom facades, stands at GITEX, display units, fleet wraps and the business cards in your pocket."}</p><p>{ar ? "نصمم ونتصور ونصنع ونركب، ونخبرك بوضوح بما يناسب مناخ دبي وقواعدها قبل أن تنفق درهماً." : "Every project has a dedicated contact from the first sketch to the final screw. We say what will work in Dubai’s climate and under Dubai’s rules before you spend a dirham."}</p></div></section>
+    <CTA locale={locale} light/>
+  </>;
 
   if (path === "about/process") return <><InnerHero eyebrow={ar ? "العملية" : "HOW WE WORK"} title={ar ? "من الموجز إلى خدمة ما بعد التنفيذ." : "Brief to aftercare, with one accountable team."} lead={ar ? "ست مراحل واضحة تحول الفكرة إلى تنفيذ قابل للمراجعة." : "Six visible stages turn an idea into an approved, fabricated and installed result."}/><Process locale={locale}/><CTA locale={locale}/></>;
 
