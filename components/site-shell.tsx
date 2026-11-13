@@ -2,7 +2,6 @@ import { ReactNode } from "react";
 import { Locale, site } from "@/lib/content";
 import { Footer } from "./footer";
 import { Header } from "./header";
-import { MobileBar } from "./mobile-bar";
 
 export function SiteShell({ locale, children }: { locale: Locale; children: ReactNode }) {
   const schema = {
@@ -18,5 +17,5 @@ export function SiteShell({ locale, children }: { locale: Locale; children: Reac
     areaServed: ["Dubai", "Abu Dhabi", "Sharjah", "Ajman", "Ras Al Khaimah", "United Arab Emirates"],
     knowsAbout: ["3D signage", "Exhibition stand design", "Vehicle branding", "Wayfinding signage", "Large format printing", "POSM display stands", "Dubai signage permits", "RTA vehicle advertising permits"],
   };
-  return <div lang={locale} dir={locale === "ar" ? "rtl" : "ltr"} className={locale === "ar" ? "arabic" : "english"}><a href="#main" className="skip-link">Skip to content</a><Header locale={locale}/><main id="main">{children}</main><Footer locale={locale}/><MobileBar locale={locale}/><script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}/></div>;
+  return <div lang={locale} dir={locale === "ar" ? "rtl" : "ltr"} className={locale === "ar" ? "arabic" : "english"}><a href="#main" className="skip-link">Skip to content</a><Header locale={locale}/><main id="main">{children}</main><Footer locale={locale}/><script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}/></div>;
 }
