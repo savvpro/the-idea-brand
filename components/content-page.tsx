@@ -1,15 +1,29 @@
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowUpRight, Check, Clock3, Compass, FileText, MapPin, ShieldCheck } from "lucide-react";
-import { caseStudies, childTitles, faqs, guides, industries, Locale, locations, route, serviceChildren, services, titleFromSlug } from "@/lib/content";
+import { caseStudies, childTitles, faqs, guides, industries, Locale, locations, portfolioImages, route, serviceChildren, services, titleFromSlug } from "@/lib/content";
 import { PermitChecker } from "./permit-checker";
 import { QuoteWizard } from "./quote-wizard";
 import { ServiceDetailSection } from "./service-detail-section";
 import { AboutDetails } from "./about-details";
 import { WorkGrid } from "./work-grid";
+import { PortfolioGallery } from "./portfolio-gallery";
 
-function InnerHero({ eyebrow, title, lead, index = "01" }: { eyebrow: string; title: string; lead: string; index?: string }) {
-  return <section className="inner-hero"><div className="inner-hero-main"><span className="eyebrow">{eyebrow}</span><h1>{title}</h1><p>{lead}</p></div><div className="inner-index"><span>{index}</span><i/></div></section>;
+function InnerHero({ eyebrow, title, lead, index = "01", image }: { eyebrow: string; title: string; lead: string; index?: string; image?: string }) {
+  return <section className={`inner-hero ${image ? "inner-hero-with-image" : ""}`}>
+    {image && <div className="inner-hero-media" aria-hidden="true"><Image src={image} alt="" fill priority sizes="100vw"/></div>}
+    <div className="inner-hero-main"><span className="eyebrow">{eyebrow}</span><h1>{title}</h1><p>{lead}</p></div><div className="inner-index"><span>{index}</span><i/></div>
+  </section>;
 }
+
+const serviceHeroFallbacks: Record<string, string> = {
+  "vehicle-branding": "/Website Pictures/Vehicle Branding/Vehicle Branding - Spinneys.jpg",
+  printing: "/Website Pictures/Promotional Items & corporate gifts/Custom corporate Gifts.jpg",
+  "digital-signage-led-screens": "/Website Pictures/Office & Retail Branding/Office Branding - Chery.jpg",
+  "laser-cutting-engraving": "/Website Pictures/Signage/ASBIS - Dubai.jpeg",
+  "graphic-design": "/Website Pictures/Office & Retail Branding/Office Branding - AMD Dubai.jpg",
+  "sourcing-procurement": "/Website Pictures/Promotional Items & corporate gifts/Corporate Office Gift Sets.jpg",
+};
 
 function CTA({ locale, light = false }: { locale: Locale; light?: boolean }) { const ar = locale === "ar"; return <section className={`cta-band ${light ? "cta-band-light" : ""}`}><div><span className={`eyebrow ${light ? "" : "light"}`}>{ar ? "لنبدأ" : "START A PROJECT"}</span><h2>{ar ? "أخبرنا بما تريد أن تصنعه." : "Tell us what you need to make."}</h2></div><Link className={`button ${light ? "" : "button-white"}`} href={route(locale, "get-a-quote")}>{ar ? "اطلب عرضاً" : "Get a quote"}<ArrowUpRight/></Link></section>; }
 
@@ -23,11 +37,11 @@ export function ContentPage({ locale, path }: { locale: Locale; path: string }) 
 
   if (path === "get-a-quote") return <><InnerHero eyebrow={ar ? "ابدأ مشروعاً" : "PROJECT ENQUIRY"} title={ar ? "من الفكرة إلى موجز واضح." : "Let’s make the brief clear."} lead={ar ? "أربع خطوات قصيرة تساعدنا على فهم المطلوب والنطاق والموعد." : "Four focused steps give our production team the scope, timing and files needed to start a useful conversation."}/><section className="section quote-section"><QuoteWizard locale={locale}/></section></>;
 
-  if (path === "work") return <><InnerHero eyebrow={ar ? "أعمالنا" : "SELECTED WORK"} title={ar ? "العمل يتحدث بوضوح." : "The work speaks clearly."} lead={ar ? "مشاريع مختارة في المعارض واللافتات والمركبات ونقاط البيع." : "Selected exhibition, signage, vehicle and retail production across the UAE."}/><section className="section"><WorkGrid locale={locale}/></section><CTA locale={locale}/></>;
+  if (path === "work") return <><InnerHero eyebrow={ar ? "أعمالنا" : "SELECTED WORK"} title={ar ? "العمل يتحدث بوضوح." : "The work speaks clearly."} lead={ar ? "مشاريع مختارة في المعارض واللافتات والمركبات ونقاط البيع." : "Selected exhibition, signage, vehicle and retail production across the UAE."}/><section className="section"><WorkGrid locale={locale}/></section><PortfolioGallery locale={locale}/><CTA locale={locale}/></>;
 
   if (root === "work" && parts[1]) {
     const item = caseStudies.find(x => x.slug === parts[1]); if (!item) return null;
-    return <><section className={`case-hero case-${item.color}`}><div><span className="eyebrow light">{item.service} · {item.place}</span><h1>{item.client}<br/><em>— {item.title}</em></h1><p>{ar ? "مشروع حقيقي من محفظة ذا آيديا براندز. المواصفات والصور والنتائج التفصيلية تنتظر مواد العميل المعتمدة." : "A real project from The Idea Brands portfolio. Detailed specifications, imagery and results are awaiting approved client materials."}</p></div><div className="case-monogram">{item.client.split(" ").map(w => w[0]).join("").slice(0, 4)}</div></section><section className="case-facts"><div><span>{ar ? "الخدمة" : "SERVICE"}</span><b>{item.service}</b></div><div><span>{ar ? "الموقع" : "LOCATION"}</span><b>{item.place}</b></div><div><span>{ar ? "السنة" : "YEAR"}</span><b>{item.year || (ar ? "بانتظار التأكيد" : "To confirm")}</b></div></section><section className="section case-body"><div><span className="eyebrow">{ar ? "الموجز" : "THE BRIEF"}</span><h2>{ar ? "تنفيذ دقيق للعلامة في العالم المادي." : "Brand precision, made physical."}</h2></div><div><p>{ar ? "سيتم نشر الموجز والمواد والجدول والنتيجة بعد اعتمادها. يحافظ هذا القالب على بنية دراسة الحالة دون اختلاق تفاصيل غير مؤكدة." : "The approved brief, materials, dimensions, programme and result will be published here. This template preserves the planned case-study structure without inventing unconfirmed project facts."}</p><ul className="check-list"><li><Check/> {ar ? "المواد والمقاسات" : "Material and dimension specification"}</li><li><Check/> {ar ? "الجدول من الموجز إلى التسليم" : "Brief-to-handover timeline"}</li><li><Check/> {ar ? "صور قبل وبعد" : "Before-and-after gallery"}</li><li><Check/> {ar ? "نتيجة قابلة للتحقق" : "Verified outcome or approved quote"}</li></ul></div></section><CTA locale={locale}/></>;
+    return <><section className={`case-hero case-${item.color} ${item.image ? "case-hero-photo" : ""}`}><div><span className="eyebrow light">{item.service} · {item.place}</span><h1>{item.client}<br/><em>— {item.title}</em></h1><p>{ar ? "مشروع حقيقي من محفظة ذا آيديا براندز. المواصفات والصور والنتائج التفصيلية تنتظر مواد العميل المعتمدة." : "A real project from The Idea Brands portfolio. Detailed specifications, imagery and results are awaiting approved client materials."}</p></div>{item.image ? <div className="case-hero-image"><Image src={item.image} alt={`${item.client} — ${item.title}`} fill priority sizes="(max-width: 900px) 100vw, 48vw"/></div> : <div className="case-monogram">{item.client.split(" ").map(w => w[0]).join("").slice(0, 4)}</div>}</section><section className="case-facts"><div><span>{ar ? "الخدمة" : "SERVICE"}</span><b>{item.service}</b></div><div><span>{ar ? "الموقع" : "LOCATION"}</span><b>{item.place}</b></div><div><span>{ar ? "السنة" : "YEAR"}</span><b>{item.year || (ar ? "بانتظار التأكيد" : "To confirm")}</b></div></section><section className="section case-body"><div><span className="eyebrow">{ar ? "الموجز" : "THE BRIEF"}</span><h2>{ar ? "تنفيذ دقيق للعلامة في العالم المادي." : "Brand precision, made physical."}</h2></div><div><p>{ar ? "سيتم نشر الموجز والمواد والجدول والنتيجة بعد اعتمادها. يحافظ هذا القالب على بنية دراسة الحالة دون اختلاق تفاصيل غير مؤكدة." : "The approved brief, materials, dimensions, programme and result will be published here. This template preserves the planned case-study structure without inventing unconfirmed project facts."}</p><ul className="check-list"><li><Check/> {ar ? "المواد والمقاسات" : "Material and dimension specification"}</li><li><Check/> {ar ? "الجدول من الموجز إلى التسليم" : "Brief-to-handover timeline"}</li><li><Check/> {ar ? "صور قبل وبعد" : "Before-and-after gallery"}</li><li><Check/> {ar ? "نتيجة قابلة للتحقق" : "Verified outcome or approved quote"}</li></ul></div></section><CTA locale={locale}/></>;
   }
 
   if (path === "services") return <><InnerHero eyebrow={ar ? "الخدمات" : "CAPABILITIES"} title={ar ? "شريك إنتاج واحد. كل نقاط علامتك." : "One production partner. Every brand surface."} lead={ar ? "نصمم ونصنع ونطبع ونركب، من واجهة المتجر إلى جناح المعرض." : "Design, fabrication, print and installation, from the shopfront to the show floor."}/><section className="section directory-grid">{services.map((s, i) => <Link href={route(locale, `services/${s.slug}`)} key={s.slug}><span>0{i + 1}</span><h2>{ar ? s.ar : s.title}</h2><p>{ar ? s.arSummary : s.summary}</p><ArrowUpRight/></Link>)}</section><CTA locale={locale}/></>;
@@ -39,10 +53,13 @@ export function ContentPage({ locale, path }: { locale: Locale; path: string }) 
     const lead = serviceLead(parts.at(-1) || "", title, ar, parent);
     const children = parent ? serviceChildren[parent.slug] || [] : [];
     const serviceSlug = parts.at(-1) || parent?.slug || "signage";
+    const heroServiceSlug = parent?.slug || serviceSlug;
+    const heroImage = serviceHeroFallbacks[heroServiceSlug] || portfolioImages.find(item => item.serviceSlug === heroServiceSlug)?.src;
     return <>
-      <InnerHero eyebrow={ar ? "خدمة · الإمارات" : "SERVICE · UAE"} title={title} lead={lead}/>
+      <InnerHero eyebrow={ar ? "خدمة · الإمارات" : "SERVICE · UAE"} title={title} lead={lead} image={heroImage}/>
       <section className="answer-block"><span>{ar ? "باختصار" : "THE SHORT ANSWER"}</span><p>{lead}</p></section>
       <ServiceDetailSection locale={locale} serviceSlug={serviceSlug} parentSlug={parent?.slug} title={title}/>
+      <PortfolioGallery locale={locale} serviceSlug={parent?.slug || serviceSlug} compact/>
       {children.length > 0 && <section className="section options-section">
         <div className="section-heading"><div><span className="eyebrow">{ar ? "الخيارات" : "TYPES & OPTIONS"}</span><h2>{ar ? "اختر الشكل المناسب للمهمة." : "Choose the right build for the job."}</h2></div></div>
         <div className="option-grid">{children.map((slug, i) => <Link href={route(locale, `services/${parent?.slug}/${slug}`)} key={slug}><span>0{i + 1}</span><h3>{ar ? childTitles[slug]?.[1] : childTitles[slug]?.[0]}</h3><p>{ar ? "يتم تحديد الخامة والتشطيب والمواصفات حسب الموقع والاستخدام والمتطلبات." : "Material, finish and specification are selected around placement, use and authority requirements."}</p><ArrowUpRight/></Link>)}</div>

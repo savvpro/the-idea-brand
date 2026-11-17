@@ -75,14 +75,49 @@ export const locations = [
 ] as const;
 
 export const caseStudies = [
-  { slug: "asbis-gitex-2023", client: "ASBIS", title: "Exhibition stand", place: "GITEX, Dubai", year: "2023", service: "Exhibitions", color: "red" },
-  { slug: "iffco-animal-nutrition-viv-mea-2025", client: "IFFCO Animal Nutrition", title: "Exhibition stand", place: "VIV MEA, Abu Dhabi", year: "2025", service: "Exhibitions", color: "sand" },
-  { slug: "chery-sharjah-showroom", client: "Chery", title: "Showroom branding & facade", place: "Sharjah", year: "", service: "Signage", color: "ink" },
+  { slug: "asbis-gitex-2023", client: "ASBIS", title: "Exhibition stand", place: "GITEX, Dubai", year: "2023", service: "Exhibitions", color: "red", image: "/Website Pictures/Exhibition Stands/Exhibition Stand - ASBIS.jpg" },
+  { slug: "iffco-animal-nutrition-viv-mea-2025", client: "IFFCO Animal Nutrition", title: "Exhibition stand", place: "VIV MEA, Abu Dhabi", year: "2025", service: "Exhibitions", color: "sand", image: "/Website Pictures/Exhibition Stands/IFFCO Exhibition Stand - VIV MEA 2026.jpeg" },
+  { slug: "chery-sharjah-showroom", client: "Chery", title: "Showroom branding & facade", place: "Sharjah", year: "", service: "Signage", color: "ink", image: "/Website Pictures/Office & Retail Branding/Office Branding - Chery.jpg" },
   { slug: "motul-service-centre-signage", client: "Motul", title: "Service centre signage", place: "UAE", year: "", service: "Signage", color: "red" },
-  { slug: "adnoc-dagenite-display-stands", client: "ADNOC / Dagenite", title: "Display stands", place: "UAE", year: "", service: "POSM", color: "sand" },
-  { slug: "atlas-copco-ncc-fleet-branding", client: "Atlas Copco & NCC", title: "Fleet branding", place: "UAE", year: "", service: "Vehicle", color: "ink" },
-  { slug: "aw-rostamani-gac-event-branding", client: "AW Rostamani / GAC", title: "Ramadan & corporate event branding", place: "UAE", year: "", service: "Events", color: "red" },
-  { slug: "mopar-wall-floor-graphics", client: "Mopar / AW Rostamani", title: "Wall & floor graphics", place: "UAE", year: "", service: "Retail", color: "sand" },
+  { slug: "adnoc-dagenite-display-stands", client: "ADNOC / Dagenite", title: "Display stands", place: "UAE", year: "", service: "POSM", color: "sand", image: "/Website Pictures/Display Stands & POSM/Lubricant Stands - ADNOC.jpeg" },
+  { slug: "atlas-copco-ncc-fleet-branding", client: "Atlas Copco & NCC", title: "Fleet branding", place: "UAE", year: "", service: "Vehicle", color: "ink", image: "/Website Pictures/Vehicle Branding/Vehicle Branding - ATLAS Copco.jpg" },
+  { slug: "aw-rostamani-gac-event-branding", client: "AW Rostamani / GAC", title: "Ramadan & corporate event branding", place: "UAE", year: "", service: "Events", color: "red", image: "/Website Pictures/Display Stands & POSM/Flags - AWR.jpg" },
+  { slug: "mopar-wall-floor-graphics", client: "Mopar / AW Rostamani", title: "Wall & floor graphics", place: "UAE", year: "", service: "Retail", color: "sand", image: "/Website Pictures/Office & Retail Branding/Office Branding - AWR.jpg" },
+];
+
+export type PortfolioImage = { src: string; title: string; category: string; serviceSlug: string };
+
+export const portfolioImages: PortfolioImage[] = [
+  { src: "/Website Pictures/Exhibition Stands/Exhibition Stand - ASBIS.jpg", title: "ASBIS exhibition stand", category: "Exhibition Stands", serviceSlug: "exhibition-stands" },
+  { src: "/Website Pictures/Exhibition Stands/IFFCO Exhibition Stand - VIV MEA 2026.jpeg", title: "IFFCO exhibition stand", category: "Exhibition Stands", serviceSlug: "exhibition-stands" },
+  { src: "/Website Pictures/Exhibition Stands/Exhibition Stand - AMAP.png", title: "AMAP exhibition stand", category: "Exhibition Stands", serviceSlug: "exhibition-stands" },
+  { src: "/Website Pictures/Exhibition Stands/Exhibition Stand - Qualikems.jpg", title: "Qualikems exhibition stand", category: "Exhibition Stands", serviceSlug: "exhibition-stands" },
+  { src: "/Website Pictures/Exhibition Stands/Exhibition Stand - University of Dubai.jpg", title: "University of Dubai exhibition stand", category: "Exhibition Stands", serviceSlug: "exhibition-stands" },
+  { src: "/Website Pictures/Signage/ASBIS - Dubai.jpeg", title: "ASBIS signage, Dubai", category: "Signage", serviceSlug: "signage" },
+  { src: "/Website Pictures/Signage/Dunlop - Abu Dhabi.jpg", title: "Dunlop signage, Abu Dhabi", category: "Signage", serviceSlug: "signage" },
+  { src: "/Website Pictures/Signage/Legacy Of Smiles - Dubai Marina.jpeg", title: "Legacy of Smiles signage", category: "Signage", serviceSlug: "signage" },
+  { src: "/Website Pictures/Signage/Love Shack Fancy - Dubai Marina.jpeg", title: "LoveShackFancy signage", category: "Signage", serviceSlug: "signage" },
+  { src: "/Website Pictures/Signage/Mr Fat Smoke - Abu Dhabi.jpg", title: "Mr Fat Smoke signage", category: "Signage", serviceSlug: "signage" },
+  { src: "/Website Pictures/Vehicle Branding/Vehicle Branding - ATLAS Copco.jpg", title: "Atlas Copco vehicle branding", category: "Vehicle Branding", serviceSlug: "vehicle-branding" },
+  { src: "/Website Pictures/Vehicle Branding/Vehicle Branding - Mai Laundry.jpg", title: "Mai Laundry vehicle branding", category: "Vehicle Branding", serviceSlug: "vehicle-branding" },
+  { src: "/Website Pictures/Vehicle Branding/Vehicle Branding - Spinneys.jpg", title: "Spinneys vehicle branding", category: "Vehicle Branding", serviceSlug: "vehicle-branding" },
+  { src: "/Website Pictures/Vehicle Branding/Vehicle Branding - UAE Mart.jpg", title: "UAE Mart vehicle branding", category: "Vehicle Branding", serviceSlug: "vehicle-branding" },
+  { src: "/Website Pictures/Vehicle Branding/Vehicle Branding - Unilever.jpg", title: "Unilever vehicle branding", category: "Vehicle Branding", serviceSlug: "vehicle-branding" },
+  { src: "/Website Pictures/Office & Retail Branding/Office Branding - Chery.jpg", title: "Chery office branding", category: "Office & Retail", serviceSlug: "office-and-retail-branding" },
+  { src: "/Website Pictures/Office & Retail Branding/Office Branding - AWR.jpg", title: "AWR office branding", category: "Office & Retail", serviceSlug: "office-and-retail-branding" },
+  { src: "/Website Pictures/Office & Retail Branding/Office Branding - AMD Dubai.jpg", title: "AMD office branding, Dubai", category: "Office & Retail", serviceSlug: "office-and-retail-branding" },
+  { src: "/Website Pictures/Office & Retail Branding/Retail Branding - AMAP Dubai.jpeg", title: "AMAP retail branding, Dubai", category: "Office & Retail", serviceSlug: "office-and-retail-branding" },
+  { src: "/Website Pictures/Office & Retail Branding/Retail Branding - AWR Dubai.jpg", title: "AWR retail branding, Dubai", category: "Office & Retail", serviceSlug: "office-and-retail-branding" },
+  { src: "/Website Pictures/Display Stands & POSM/Battery Stands - Duracell.jpg", title: "Duracell battery stands", category: "Display Stands & POSM", serviceSlug: "display-stands-posm" },
+  { src: "/Website Pictures/Display Stands & POSM/Display Stand - AWR 1.jpg", title: "AWR display stand", category: "Display Stands & POSM", serviceSlug: "display-stands-posm" },
+  { src: "/Website Pictures/Display Stands & POSM/Display Stand - AWR.jpg", title: "AWR retail display", category: "Display Stands & POSM", serviceSlug: "display-stands-posm" },
+  { src: "/Website Pictures/Display Stands & POSM/Display Stand = Aurora.webp", title: "Aurora display stand", category: "Display Stands & POSM", serviceSlug: "display-stands-posm" },
+  { src: "/Website Pictures/Display Stands & POSM/Flags - AWR.jpg", title: "AWR branded flags", category: "Display Stands & POSM", serviceSlug: "display-stands-posm" },
+  { src: "/Website Pictures/Display Stands & POSM/Lubricant Stands - ADNOC.jpeg", title: "ADNOC lubricant stands", category: "Display Stands & POSM", serviceSlug: "display-stands-posm" },
+  { src: "/Website Pictures/Promotional Items & corporate gifts/Premium Promotional Gift Sets.jpg", title: "Premium promotional gift sets", category: "Corporate Gifts", serviceSlug: "promotional-items-corporate-gifts" },
+  { src: "/Website Pictures/Promotional Items & corporate gifts/Office Gift Sets.jpg", title: "Office gift sets", category: "Corporate Gifts", serviceSlug: "promotional-items-corporate-gifts" },
+  { src: "/Website Pictures/Promotional Items & corporate gifts/Custom corporate Gifts.jpg", title: "Custom corporate gifts", category: "Corporate Gifts", serviceSlug: "promotional-items-corporate-gifts" },
+  { src: "/Website Pictures/Promotional Items & corporate gifts/Corporate Office Gift Sets.jpg", title: "Corporate office gift sets", category: "Corporate Gifts", serviceSlug: "promotional-items-corporate-gifts" },
 ];
 
 export const clientNames = ["ADNOC", "ENOC", "CHERY", "GAC", "MOTUL", "MOPAR", "CEAT", "ATLAS COPCO", "ASBIS", "AW ROSTAMANI"];

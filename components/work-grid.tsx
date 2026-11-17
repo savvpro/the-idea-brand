@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState } from "react";
 import { ArrowUpRight } from "lucide-react";
 import { caseStudies, Locale, route } from "@/lib/content";
@@ -22,11 +23,11 @@ export function WorkGrid({ locale, limit }: { locale: Locale; limit?: number }) 
       {items.map((item, i) => {
         const monogram = item.client.split(" ").map(w => w[0]).join("").replace(/[^A-Z]/gi, "").slice(0, 4);
         return <Link href={route(locale, `work/${item.slug}`)} className={`work-card work-card-${item.color} ${showcase ? `showcase-card showcase-card-${i + 1}` : i === 0 ? "work-wide" : ""}`} key={item.slug}>
-          <div className="work-art">
-            <div className="art-lines"/>
+          <div className={`work-art ${item.image ? "work-art-photo" : ""}`}>
+            {item.image && <Image src={item.image} alt={`${item.client} — ${item.title}`} fill sizes={showcase ? "(max-width: 720px) 100vw, 55vw" : "(max-width: 720px) 100vw, 45vw"}/>}<div className="art-lines"/>
             <span className="project-index">PROJECT / {String(i + 1).padStart(2, "0")}</span>
             <span className="work-art-service">{item.service}</span>
-            <strong>{monogram}</strong>
+            {!item.image && <strong>{monogram}</strong>}
             <div className="work-art-frame"/>
             <small>{item.place}</small>
           </div>
