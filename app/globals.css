@@ -1110,6 +1110,8 @@ table{max-width:100%}
   .portfolio-gallery-compact .portfolio-gallery-summary{display:grid;grid-template-columns:65px 1fr;align-items:end;margin-top:35px;padding-top:24px;gap:14px}
   .portfolio-gallery-compact .portfolio-gallery-summary>strong{font-size:58px;margin:0}
   .portfolio-gallery-compact .portfolio-gallery-summary p{padding-left:15px}
+  .portfolio-gallery-compact .portfolio-photo-grid{width:auto;margin-left:-10px;margin-right:-10px}
+  .portfolio-gallery-compact .portfolio-photo{margin-bottom:16px}
   .portfolio-photo{margin-bottom:12px}
   .portfolio-photo figcaption{grid-template-columns:25px minmax(0,1fr) 20px;padding:16px}
   .portfolio-photo figcaption strong{font-size:18px}
@@ -1121,6 +1123,7 @@ table{max-width:100%}
 
 /* Service hero photography */
 .inner-hero-with-image{width:100%;max-width:none;min-height:650px;background:#090909;color:#fff;border-bottom-color:#292929;isolation:isolate}
+.inner-hero-backdrop{display:none}
 .inner-hero-with-image .inner-hero-media{position:absolute;inset:0;z-index:0;overflow:hidden}
 .inner-hero-with-image .inner-hero-media img{object-fit:cover;object-position:center;filter:saturate(.88) contrast(1.04)}
 .inner-hero-with-image .inner-hero-media:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(5,5,5,.98) 0%,rgba(5,5,5,.9) 34%,rgba(5,5,5,.65) 58%,rgba(5,5,5,.2) 82%,rgba(5,5,5,.38) 100%),linear-gradient(0deg,rgba(5,5,5,.42),transparent 55%);pointer-events:none}
@@ -1140,3 +1143,62 @@ table{max-width:100%}
   .inner-hero-with-image .inner-hero-media:after,[dir=rtl] .inner-hero-with-image .inner-hero-media:after{background:linear-gradient(180deg,rgba(5,5,5,.68) 0%,rgba(5,5,5,.78) 34%,rgba(5,5,5,.97) 100%)}
   .inner-hero-with-image p{color:rgba(255,255,255,.82)}
 }
+
+/* Homepage looping project reel */
+.home-reel{width:100%;max-width:none;background:#090909;color:#fff;padding:clamp(72px,8vw,112px) 0;overflow:hidden;position:relative;border-top:1px solid #242424;border-bottom:1px solid #242424}
+.home-reel:before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);background-size:64px 64px;mask-image:linear-gradient(to bottom,#000,transparent 55%);pointer-events:none}
+.home-reel-head{position:relative;z-index:1;max-width:var(--max);margin:0 auto 44px;padding:0 var(--pad) 38px;display:flex;align-items:end;justify-content:space-between;gap:50px;border-bottom:1px solid #303030}
+.home-reel-head h2{font-size:clamp(42px,5vw,70px);line-height:1;margin-top:20px;max-width:760px}
+.home-reel-count{display:flex;align-items:end;gap:14px;flex:none}
+.home-reel-count strong{font:700 clamp(52px,6vw,82px)/.78 Poppins,sans-serif;letter-spacing:-.08em;color:transparent;-webkit-text-stroke:1px #555}
+.home-reel-count span{font-size:7px;letter-spacing:.18em;color:#777;padding-bottom:2px}
+.home-reel-window{position:relative;z-index:1;overflow:hidden;mask-image:linear-gradient(90deg,transparent,#000 3%,#000 97%,transparent)}
+.home-reel-track{display:flex;width:max-content;will-change:transform;animation:home-project-reel 95s linear infinite}
+.home-reel-group{display:flex;align-items:flex-start;gap:14px;padding-right:14px;flex:none}
+.home-reel-card{width:clamp(330px,35vw,500px);margin:0;background:#141414;border:1px solid #303030;flex:none;transition:border-color .25s,transform .25s}
+.home-reel-card.home-reel-portrait{width:clamp(190px,20vw,275px)}
+.home-reel-image{height:clamp(235px,24vw,330px);position:relative;margin:7px 7px 0;background:#050505;overflow:hidden}
+.home-reel-image img{object-fit:contain}
+.home-reel-card figcaption{display:grid;grid-template-columns:28px minmax(0,1fr);gap:12px;align-items:start;padding:17px 18px 20px}
+.home-reel-card figcaption>small{color:var(--red);font-size:8px;letter-spacing:.13em;padding-top:3px}
+.home-reel-card figcaption>div{display:flex;flex-direction:column;gap:5px;min-width:0}
+.home-reel-card figcaption span{font-size:7px;letter-spacing:.15em;text-transform:uppercase;color:#777}
+.home-reel-card figcaption strong{font:600 clamp(15px,1.4vw,20px)/1.25 Poppins,"IBM Plex Sans Arabic",sans-serif;color:#fff}
+.home-reel-card:hover{border-color:#555;transform:translateY(-4px)}
+.home-reel-window:hover .home-reel-track{animation-play-state:paused}
+[dir=rtl] .home-reel-track{animation-direction:reverse}
+[dir=rtl] .home-reel-group{padding-right:0;padding-left:14px}
+@keyframes home-project-reel{to{transform:translateX(-50%)}}
+
+@media (max-width:720px){
+  .home-reel{padding:68px 0 74px}
+  .home-reel:before{background-size:48px 48px}
+  .home-reel-head{display:block;margin-bottom:28px;padding:0 22px 28px}
+  .home-reel-head h2{font-size:42px}
+  .home-reel-count{margin-top:28px;justify-content:flex-start}
+  .home-reel-count strong{font-size:54px}
+  .home-reel-card{width:78vw;max-width:340px}
+  .home-reel-card.home-reel-portrait{width:56vw;max-width:235px}
+  .home-reel-image{height:250px}
+  .home-reel-card figcaption{padding:15px;grid-template-columns:25px 1fr;gap:10px}
+  .home-reel-card figcaption strong{font-size:16px}
+  .home-reel-window{mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent)}
+  .home-reel-track{animation-duration:78s}
+}
+
+@media (prefers-reduced-motion:reduce){.home-reel-track{animation-play-state:paused}}
+
+/* Infinite client-name loop */
+.logo-marquee{display:block;min-width:0;gap:0;overflow:hidden}
+.logo-marquee-track{display:flex;width:max-content;will-change:transform;animation:client-name-loop 24s linear infinite}
+.logo-marquee-group{display:flex;align-items:center;gap:42px;padding-right:42px;flex:none}
+.logo-marquee:hover .logo-marquee-track{animation-play-state:paused}
+[dir=rtl] .logo-marquee-track{animation-direction:reverse}
+[dir=rtl] .logo-marquee-group{padding-right:0;padding-left:42px}
+@keyframes client-name-loop{to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){.logo-marquee-track{animation-play-state:paused}}
+
+/* Homepage Selected Work image framing */
+.home-selected-work .work-art-photo>img{transform:scale(1.08);transition:transform .45s ease,filter .35s}
+.home-selected-work .work-card:hover .work-art-photo>img{transform:scale(1.11);filter:saturate(1.08)}
+

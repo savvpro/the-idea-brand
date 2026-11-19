@@ -11,18 +11,19 @@ import { PortfolioGallery } from "./portfolio-gallery";
 
 function InnerHero({ eyebrow, title, lead, index = "01", image }: { eyebrow: string; title: string; lead: string; index?: string; image?: string }) {
   return <section className={`inner-hero ${image ? "inner-hero-with-image" : ""}`}>
+    {image && <div className="inner-hero-backdrop" aria-hidden="true"><Image src={image} alt="" fill priority sizes="100vw"/></div>}
     {image && <div className="inner-hero-media" aria-hidden="true"><Image src={image} alt="" fill priority sizes="100vw"/></div>}
     <div className="inner-hero-main"><span className="eyebrow">{eyebrow}</span><h1>{title}</h1><p>{lead}</p></div><div className="inner-index"><span>{index}</span><i/></div>
   </section>;
 }
 
 const serviceHeroFallbacks: Record<string, string> = {
-  "vehicle-branding": "/Website Pictures/Vehicle Branding/Vehicle Branding - Spinneys.jpg",
-  printing: "/Website Pictures/Promotional Items & corporate gifts/Custom corporate Gifts.jpg",
-  "digital-signage-led-screens": "/Website Pictures/Office & Retail Branding/Office Branding - Chery.jpg",
-  "laser-cutting-engraving": "/Website Pictures/Signage/ASBIS - Dubai.jpeg",
-  "graphic-design": "/Website Pictures/Office & Retail Branding/Office Branding - AMD Dubai.jpg",
-  "sourcing-procurement": "/Website Pictures/Promotional Items & corporate gifts/Corporate Office Gift Sets.jpg",
+  "vehicle-branding": "/Website Pictures/Vehicle Branding/Vehicle Branding - Spinneys.webp",
+  printing: "/Website Pictures/Promotional Items & corporate gifts/Custom corporate Gifts.webp",
+  "digital-signage-led-screens": "/Website Pictures/Office & Retail Branding/Office Branding - Chery.webp",
+  "laser-cutting-engraving": "/Website Pictures/Signage/ASBIS - Dubai.webp",
+  "graphic-design": "/Website Pictures/Office & Retail Branding/Office Branding - AMD Dubai.webp",
+  "sourcing-procurement": "/Website Pictures/Promotional Items & corporate gifts/Corporate Office Gift Sets.webp",
 };
 
 function CTA({ locale, light = false }: { locale: Locale; light?: boolean }) { const ar = locale === "ar"; return <section className={`cta-band ${light ? "cta-band-light" : ""}`}><div><span className={`eyebrow ${light ? "" : "light"}`}>{ar ? "لنبدأ" : "START A PROJECT"}</span><h2>{ar ? "أخبرنا بما تريد أن تصنعه." : "Tell us what you need to make."}</h2></div><Link className={`button ${light ? "" : "button-white"}`} href={route(locale, "get-a-quote")}>{ar ? "اطلب عرضاً" : "Get a quote"}<ArrowUpRight/></Link></section>; }
