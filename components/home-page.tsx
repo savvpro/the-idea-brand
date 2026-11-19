@@ -4,6 +4,7 @@ import { clientNames, faqs, Locale, route, services } from "@/lib/content";
 import { PermitChecker } from "./permit-checker";
 import { Reveal } from "./reveal";
 import { WorkGrid } from "./work-grid";
+import { HomeGalleryLoop } from "./home-gallery-loop";
 
 const serviceIcons = [Factory, Layers3, Compass, Sparkles, Wrench, FileCheck2];
 
@@ -35,7 +36,9 @@ export function HomePage({ locale }: { locale: Locale }) {
       <a href="#services" className="scroll-cue"><ArrowDown/>{ar ? "استكشف" : "EXPLORE"}</a>
     </section>
 
-    <section className="trust-strip" aria-label={ar ? "عملاء مختارون" : "Selected clients"}><span>{ar ? "موثوق به من فرق لدى" : "TRUSTED BY TEAMS AT"}</span><div className="logo-marquee">{clientNames.concat(clientNames).map((name, i) => <strong key={`${name}-${i}`}>{name}</strong>)}</div><small>{ar ? "عرض الأسماء رهن موافقة استخدام العلامات" : "Names shown subject to logo-use permission"}</small></section>
+    <section className="trust-strip" aria-label={ar ? "عملاء مختارون" : "Selected clients"}><span>{ar ? "موثوق به من فرق لدى" : "TRUSTED BY TEAMS AT"}</span><div className="logo-marquee"><div className="logo-marquee-track">{[0, 1].map(group => <div className="logo-marquee-group" aria-hidden={group === 1} key={group}>{clientNames.map(name => <strong key={`${group}-${name}`}>{name}</strong>)}</div>)}</div></div><small>{ar ? "عرض الأسماء رهن موافقة استخدام العلامات" : "Names shown subject to logo-use permission"}</small></section>
+
+    <HomeGalleryLoop locale={locale}/>
 
     <section id="services" className="section services-section">
       <Reveal className="section-heading"><div><span className="eyebrow">{ar ? "ما نصنعه" : "WHAT WE MAKE"}</span><h2>{ar ? "علامتك. كل سطح." : <>Your brand.<br/>Every surface.</>}</h2></div><p>{ar ? "من واجهة المعرض إلى المركبات في الخارج والجناح في المعرض، يعمل فريق واحد من ملف علامة واحد." : "From the showroom fascia to the fleet outside and the stand at GITEX, one team works from one brand file."}</p></Reveal>
@@ -52,7 +55,7 @@ export function HomePage({ locale }: { locale: Locale }) {
       </div>
     </section>
 
-    <section className="section work-section" id="selected-work">
+    <section className="section work-section home-selected-work" id="selected-work">
       <Reveal className="section-heading"><div><span className="eyebrow">{ar ? "أعمال مختارة" : "SELECTED WORK"}</span><h2>{ar ? "الدليل في التنفيذ." : "Proof, made visible."}</h2></div><Link className="text-link" href={route(locale, "work")}>{ar ? "كل المشاريع" : "All projects"}<ArrowRight/></Link></Reveal>
       <WorkGrid locale={locale} limit={3}/>
     </section>
